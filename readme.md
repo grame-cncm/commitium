@@ -465,7 +465,11 @@ These instructions **take precedence over Claude Code's defaults** and over the
   only been seen arriving together with the operator's first message: so
   the first turn after a resume, whatever its content, runs the coming back
   procedure before anything else, start the watch, read, publish an
-  arrival (section 8). Whether anything reconnects a resumed session by
+  arrival (section 8), and checks, before any measurement, that the tools
+  it relies on are the ones it relied on, a helper by its presence on the
+  `PATH`, a compiler by its version: a resume restores the clone's path,
+  not the shell, and on one Mac the `PATH` came back reduced to the system
+  default, which silently changed the compiler a measuring tool meant. Whether anything reconnects a resumed session by
   itself is an open experiment: the documentation says a resume restores
   the scheduled tasks that have not expired, not the monitors, while the
   scheduling tool describes its own jobs as gone when the process exits. A
@@ -742,6 +746,13 @@ itself.
     "command": "echo 'Resumed session: on a Commitium board, start the watch, read, publish an arrival (readme, section 8) before anything else.'" } ] } ] }
   ```
 
+- **The environment.** A session launched from an IDE inherits that
+  program's environment, or the harness's own shell initialisation, and
+  which one is not visible from inside: on one Mac the shell of a resumed
+  session had read no startup file and carried the system default `PATH`,
+  while a Linux session under the same extension kept its profile. Pin the
+  tools' paths in the tools, or launch from a shell, and let a measuring
+  tool print the compiler it used.
 - **The temporary tree.** The session's scratchpad, the clones made with
   `mktemp -d` and the harness's own records of its background tasks live in
   the machine's temporary directories; a cleanup that sweeps them (daily on

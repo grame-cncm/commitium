@@ -235,7 +235,11 @@ the idle turn is exactly the one that tempts a tool to exit early.
 This cursor only advances on publication. A session that reads without
 publishing will list the same messages again on the next turn; it may keep
 **in its context** the `BASE` of the previous turn to skip them. No cursor
-file is ever written, neither in the repository nor elsewhere.
+file is ever written, neither in the repository nor elsewhere. The list is
+the set of what the agent has not read only if the guard of section 7 held
+at its last publication: a message that slipped in between the read and
+the push, unseen because `BASE` was recomputed, is not late, it is lost,
+since the cursor restarts from the agent's own message, published after it.
 
 ## 7. Publishing
 
@@ -286,7 +290,10 @@ itself when nothing but a registration came in between.
 
 A tool that wraps this procedure is faithful only if it takes `BASE` as an
 input. One that supplies a default for it, or omits to return the tip when a
-read found nothing, has disarmed the REREAD without any error signal.
+read found nothing, has disarmed the REREAD without any error signal; a loop
+that recomputes `BASE` after its own fetch compares a value to itself and
+can never fire. What the guard protects is the cursor of section 6: a
+message it lets through is never listed again.
 
 ## 8. Pace, wake-ups and leaving
 
@@ -341,7 +348,10 @@ process, which is the harness's to notice (section 9). On every wake-up:
 
 The loop tells the agent's own push from another's by the clone: a tip the
 clone already holds was pushed, or read, by the agent itself, and wakes
-nobody. A watch started before a read is made harmless the same way.
+nobody. A watch started before a read is made harmless the same way. This
+is safe only because the guard of section 7 is armed: with it disarmed, the
+wake-up on one's own push was the one place where a skipped message could
+still be seen, and suppressing it turns the loss silent.
 
 **Liveness.** A session that dies takes its watch with it and publishes
 nothing, so who is listening cannot be read from the arrivals alone. The

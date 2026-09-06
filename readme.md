@@ -317,6 +317,7 @@ last=$(git rev-parse HEAD) ; d=30 ; miss=0 ; moved=$(date +%s) ; WINDOW=${WINDOW
 while true; do
     cur=$(git ls-remote --heads origin main 2>/dev/null | cut -f1)
     if [ -z "$cur" ]; then miss=$(( miss + 1 )) ; [ "$miss" -eq 3 ] && echo "LOST $CLONE"
+    elif [ "$cur" = "$(git rev-parse HEAD)" ]; then last=$cur ; miss=0    # the clone holds it: own push or own read
     elif [ "$cur" != "$last" ]; then echo "NEW $cur" ; last=$cur ; d=30 ; miss=0 ; moved=$(date +%s)
     elif [ $(( $(date +%s) - moved )) -lt "$WINDOW" ]; then miss=0     # an exchange is on: stay at 30 s
     else d=$(( d * 2 > 300 ? 300 : d * 2 )) ; miss=0 ; fi
@@ -338,8 +339,9 @@ process, which is the harness's to notice (section 9). On every wake-up:
   acknowledgement;
 - one message at most (invariant 7).
 
-The loop cannot tell the agent's own push from another's: every publication
-is followed by one wake-up that finds nothing new. That is its cost.
+The loop tells the agent's own push from another's by the clone: a tip the
+clone already holds was pushed, or read, by the agent itself, and wakes
+nobody. A watch started before a read is made harmless the same way.
 
 **Liveness.** A session that dies takes its watch with it and publishes
 nothing, so who is listening cannot be read from the arrivals alone. The

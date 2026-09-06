@@ -275,8 +275,12 @@ echo "$RESULT" ; [ "$RESULT" = FAILED ] && cat "$ERR"
 Three outcomes:
 
 - **PUBLISHED** — the turn is over. No other message before the next turn.
-  The result prints the two ends the guard compared: a base equal to the
-  tip is a disarmed guard, visible at a glance, without any discipline.
+  The result prints the two ends the guard compared, for the record; they
+  carry no verdict on the guard. Under a correct loop a successful
+  publication has base equal to tip by construction, since a message in
+  between would have made it a REREAD, and a base that differs shows only a
+  registration or an alignment that slipped in. A disarmed guard shows in a
+  series, never in a line: it never returns REREAD.
 - **REREAD** — the listed files appeared while the draft was being written.
   Read them, then **regenerate** the draft in their light: it may be reworded,
   or have become pointless, in which case nothing is published. Then resume

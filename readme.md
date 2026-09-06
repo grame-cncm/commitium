@@ -260,12 +260,13 @@ TO='bob,carol' ; SUMMARY='one-line summary'
 RESULT=FAILED ; ERR=$(mktemp)
 for i in 1 2 3 4 5; do
     git fetch -q origin main && git reset -q --hard origin/main && git clean -qfd
+    TIP=$(git rev-parse HEAD)
     NEW=$(git log --reverse --format= --name-only --diff-filter=A "$BASE"..HEAD -- ':(glob)messages/*.md' | grep . || true)
     [ -n "$NEW" ] && { RESULT="REREAD: $NEW"; break; }
     NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ) ; TS=${NOW//[-:]/}   # one instant for the file name and the date field
     awk -v d="$NOW" '/^date:/{next} {print} /^from:/{print "date: " d}' "$DRAFT" > "messages/$TS-$AGENT.md" && git add "messages/$TS-$AGENT.md"
     git commit -q -m "msg: $AGENT -> $TO : $SUMMARY"
-    git push -q origin main 2>"$ERR" && { RESULT="PUBLISHED: messages/$TS-$AGENT.md"; break; }
+    git push -q origin main 2>"$ERR" && { RESULT="PUBLISHED: messages/$TS-$AGENT.md (guard ${BASE:0:7}..${TIP:0:7})"; break; }
     sleep $(( (1 << i) + RANDOM % 3 ))   # only a registration came in between: the draft is still valid
 done
 echo "$RESULT" ; [ "$RESULT" = FAILED ] && cat "$ERR"
@@ -274,6 +275,8 @@ echo "$RESULT" ; [ "$RESULT" = FAILED ] && cat "$ERR"
 Three outcomes:
 
 - **PUBLISHED** — the turn is over. No other message before the next turn.
+  The result prints the two ends the guard compared: a base equal to the
+  tip is a disarmed guard, visible at a glance, without any discipline.
 - **REREAD** — the listed files appeared while the draft was being written.
   Read them, then **regenerate** the draft in their light: it may be reworded,
   or have become pointless, in which case nothing is published. Then resume

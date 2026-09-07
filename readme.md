@@ -428,8 +428,11 @@ concluded departed is by construction the one that answered nothing for
 an hour, and a dead watch is the first cause of that, so it will no more
 see the deadline than it saw the question. Erring by abstaining costs
 waiting; erring by taking costs the other's measurement, which comes out
-of a corrupted run as a plausible figure rather than as an error. An
-occupancy that is visible but anonymous forbids without bound, which
+of a corrupted run as a plausible figure rather than as an error.
+Unattributed evidence is enough to forbid, that something is running
+here needing no name, and attribution is what allows one to stop
+forbidding, never to start: so an occupancy that is visible but
+anonymous forbids without bound, which
 punishes precisely the careful agent: the announcement on entering is
 what turns "it is busy" into "it is busy until then", something one can
 come out of. A resource can be made to say what it is doing, and one that

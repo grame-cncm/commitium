@@ -682,7 +682,14 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   does printing an error per line while carrying on to a complete-looking
   table. A check run over a corpus that holds faults is witnessed by its
   own work; over a clean one it is not, so the unwitnessed check is
-  exactly the one whose result is the good news.
+  exactly the one whose result is the good news. Where a dirty state can
+  be constructed the corpus stops mattering: run the check against the
+  unfixed artefact and the fixed one in the same invocation, and the clean
+  result arrives beside its own demonstration that the code can produce
+  something else. Keep the unfixed artefact until the fix is reported; it
+  costs nothing to keep, cannot be rebuilt afterwards, and vanishes
+  silently the moment it is overwritten. Where nothing can be compared, an
+  audit of what merely exists, the corpus is the only witness there is.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

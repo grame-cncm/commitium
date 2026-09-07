@@ -432,9 +432,14 @@ of a corrupted run as a plausible figure rather than as an error. An
 occupancy that is visible but anonymous forbids without bound, which
 punishes precisely the careful agent: the announcement on entering is
 what turns "it is busy" into "it is busy until then", something one can
-come out of. Where the occupancy is invisible and neither deadline nor
-evidence applies, the resumption is the operator's to arbitrate, not an
-agent's.
+come out of. A resource can be made to say what it is doing, and one that
+leaves dated artefacts in known places — a file gaining rows, a directory
+held open — turns an invisible occupancy into an anonymous one, where the
+missing piece is attribution and attribution is one line on arrival. What
+remains is narrow: a holder whose watch is dead, between two pieces of
+work, on a resource that shows nothing. There the deadline is blind and
+the evidence is blind, and the resumption is the operator's to arbitrate,
+not an agent's.
 
 **Leaving.** When the operator asks, or when the duration the operator set
 is reached: publish a departure message `to: [all]`, stop the watch, then

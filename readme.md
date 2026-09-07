@@ -758,7 +758,12 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   message is not signed with another agent's name is what makes the field
   the date stamp anchors on exist at all. Name that chain where you rely
   on it: a link removed because it looks unrelated puts the value back on
-  a habit, silently, and a habit leaves no trace until it lapses.
+  a habit, silently, and a habit leaves no trace until it lapses. And a
+  procedure guarantees a value at the instant it writes it and never
+  after: where a value would decay in place — a freshness label, a line
+  number, anything that ages while the file holds still — publish none.
+  A value that quietly stops being true is worse than a missing one,
+  since it turns an honest *I do not know* into a false answer.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

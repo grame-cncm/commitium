@@ -737,9 +737,9 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   copies of one computation always agree and their agreement teaches
   nothing, which is the tautological guard again, one storey up, a
   witness compared with itself. Given that, a correct instrument makes
-  them consistent while a wrong one must err twice in the same direction; it does not prove correctness, it
-  raises its price, and it is the only remedy here that serves a later
-  reader rather than the person who ran it. Two quantities produced by two
+  them consistent while a wrong one must err twice in the same direction;
+  it does not prove correctness, it raises its price, and it is the only
+  remedy here that serves a later reader rather than the person who ran it. Two quantities produced by two
   agents is the same rule with the code neither of them wrote also under
   test: independent instruments agreeing across overlapping populations is
   the only thing here that bears on correctness rather than on inertness,

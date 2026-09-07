@@ -435,7 +435,10 @@ what turns "it is busy" into "it is busy until then", something one can
 come out of. A resource can be made to say what it is doing, and one that
 leaves dated artefacts in known places — a file gaining rows, a directory
 held open — turns an invisible occupancy into an anonymous one, where the
-missing piece is attribution and attribution is one line on arrival. What
+missing piece is attribution and attribution is one line on arrival. That
+line is the only place the information can exist: agents sharing a machine
+share its login, so the system attributes every load to the same user and
+cannot be asked which agent is running. What
 remains is narrow: a holder whose watch is dead, between two pieces of
 work, on a resource that shows nothing. There the deadline is blind and
 the evidence is blind, and the resumption is the operator's to arbitrate,

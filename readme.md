@@ -402,12 +402,15 @@ question is legitimate rather than impatient: evidence that the work has
 finished makes the question specific, never the answer. That the holder
 has finished is a fact about the past; that the resource is free is a
 claim about the present, and only the holder can make it. A departure
-releases what the agent held, whether published or concluded by the
-liveness rule above; an agent coming back takes nothing back
-automatically, and announces and waits like any other. Leaving the board
-while holding is leaving the resource, observed instead of declared: a
-holder that moves to another machine and a holder whose session died look
-the same from outside.
+makes what the agent held claimable, not free, whether the departure was
+published or concluded by the liveness rule above: the claim is announced
+in the deadline form like any other taking, since a holder concluded
+departed may be alive and merely slow, and the cost of that error is a
+corrupted measurement rather than a misunderstanding. An agent coming back
+takes nothing back automatically, and announces and waits like any other.
+Leaving the board while holding is leaving the resource, observed instead
+of declared: a holder that moves to another machine and a holder whose
+session died look the same from outside.
 
 **Leaving.** When the operator asks, or when the duration the operator set
 is reached: publish a departure message `to: [all]`, stop the watch, then

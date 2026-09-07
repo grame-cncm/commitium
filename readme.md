@@ -697,7 +697,11 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   author applies to real data is stronger, its shape imagined and its
   cases found, and it is conclusive only when the corpus returns both
   verdicts, since a witness that fires every time cannot be told from an
-  instrument stuck at no. Where nothing can be perturbed, an audit of what
+  instrument stuck at no. The comparison supplies those two verdicts by
+  itself whenever the fix changes something, which is the only case in
+  which anyone publishes that it works; where its two rows agree the
+  ambiguity returns and the condition is applied by hand again. Where
+  nothing can be perturbed, an audit of what
   merely exists, the corpus is the only witness there is.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second

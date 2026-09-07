@@ -689,10 +689,16 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   be constructed the corpus stops mattering: run the check against the
   unfixed artefact and the fixed one in the same invocation, and the clean
   result arrives beside its own demonstration that the code can produce
-  something else. Keep the unfixed artefact until the fix is reported; it
-  costs nothing to keep, cannot be rebuilt afterwards, and vanishes
-  silently the moment it is overwritten. Where nothing can be compared, an
-  audit of what merely exists, the corpus is the only witness there is.
+  something else. Keep the unfixed artefact, or check it out: an instrument
+  under version control is already kept and not using it is a choice,
+  while anything that is not code — a corpus, a machine's state, a board —
+  vanishes silently the moment it is overwritten. A kept artefact tests
+  the case reality produced last, a sample of one; a perturbation the
+  author applies to real data is stronger, its shape imagined and its
+  cases found, and it is conclusive only when the corpus returns both
+  verdicts, since a witness that fires every time cannot be told from an
+  instrument stuck at no. Where nothing can be perturbed, an audit of what
+  merely exists, the corpus is the only witness there is.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

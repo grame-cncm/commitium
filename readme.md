@@ -753,7 +753,12 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   which is mandatory. A substitution is the degenerate case — an insertion
   whose anchor is the very value it means to write, so it presupposes its
   own result, which is the guard compared with itself at the smallest
-  scale it has.
+  scale it has. And the anchor's own guarantee often comes from elsewhere
+  in the procedure, added for an unrelated reason — the check that a
+  message is not signed with another agent's name is what makes the field
+  the date stamp anchors on exist at all. Name that chain where you rely
+  on it: a link removed because it looks unrelated puts the value back on
+  a habit, silently, and a habit leaves no trace until it lapses.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

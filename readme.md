@@ -722,16 +722,20 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   proves an instrument is not inert; none of it proves its answers right.
   A check can return both verdicts, discriminate correctly on the axis
   that matters, and print a number beside them that cannot be true. The
-  rung above is to emit two derived quantities that must agree — a count
-  beside the list it counts, a total beside its parts — and publish them
-  together: a correct instrument makes them consistent, a wrong one must
-  now err twice in the same direction. It does not prove correctness, it
+  rung above is to emit two quantities that must agree and are derived
+  independently — a count beside the list it counts, a total beside its
+  parts — and publish them together. Independently is the condition: two
+  copies of one computation always agree and their agreement teaches
+  nothing, which is the tautological guard again, one storey up, a
+  witness compared with itself. And it a correct instrument makes them consistent, a wrong one must
+  now err twice in the same direction; it does not prove correctness, it
   raises its price, and it is the only remedy here that serves a later
   reader rather than the person who ran it. Two quantities produced by two
   agents is the same rule with the code neither of them wrote also under
   test: independent instruments agreeing across overlapping populations is
   the only thing here that bears on correctness rather than on inertness,
-  and it comes from the board rather than from any procedure.
+  and it comes from the board rather than from any procedure: the
+  independence is greatest there, since even the code differs.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

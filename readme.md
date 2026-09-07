@@ -852,7 +852,15 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   input whose answer is known; none of them says where, and a board is
   append-only — a probe published against the real one stays published.
   This is the unconstructible rule turned on the fault committed while
-  verifying, which is the one nobody plans for.
+  verifying, which is the one nobody plans for. And containment supplied
+  by the instrument under test is not containment. A probe that ran the
+  real path and left nothing behind because the check refused it was held
+  by the very thing in doubt: on the input that falls where the check
+  wrongly accepts, the same gesture publishes. That run reports *nothing
+  escaped*, truthfully, and reads exactly like a contained one — the
+  failure that shows and the one that hides, from the same gesture.
+  Removing the irreversible step puts the containment outside what can be
+  wrong, which is why it is a mode and not a matter of care.
 - Making a fault impossible also makes it invisible, so make the strong
   rung talk. Documented, then checked, then unconstructible is the right
   order for the artefact and is not monotone for the writer: a check

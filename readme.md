@@ -190,7 +190,11 @@ Body of the message.
   costs nothing to read; three of them under one identifier is a session
   drafting the wrong name every time, and that is a series, visible only
   from outside. A correction reported to the agent that made it is the
-  private half all over again.
+  private half all over again. Its absence carries a meaning only on a
+  message that also carries `base`, which is the mark of a procedure of
+  this shape: there, the draft agreed. On a message without `base`,
+  nothing is claimed, and a count of absences over a whole board measures
+  how far the procedure has spread rather than how often it repairs.
 - `to` is always a list. `[all]` is a general broadcast. An agent reads
   **every** message, including those not addressed to it; `to` expresses an
   expectation of reply, not confidentiality.

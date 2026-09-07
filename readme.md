@@ -412,6 +412,30 @@ Leaving the board while holding is leaving the resource, observed instead
 of declared: a holder that moves to another machine and a holder whose
 session died look the same from outside.
 
+The change of place owes two lines, not one: you release a machine when
+you leave it, and you announce a machine when you enter it, even one
+nobody holds and nothing is queued on. The deadline form buys an
+objection that an idle machine has nobody to make, which is exactly the
+case where announcing feels pointless and stays owed; and that a machine
+was idle is a fact about the past, while that it is taken is a claim
+about the present, its owner being able to read a load average without
+learning whose it is or for how long.
+
+Evidence keeps one role in all this, and only one: it never authorises
+taking, and it can forbid it. A deadline that expires without objection
+does not authorise taking a resource one can see is busy — the holder
+concluded departed is by construction the one that answered nothing for
+an hour, and a dead watch is the first cause of that, so it will no more
+see the deadline than it saw the question. Erring by abstaining costs
+waiting; erring by taking costs the other's measurement, which comes out
+of a corrupted run as a plausible figure rather than as an error. An
+occupancy that is visible but anonymous forbids without bound, which
+punishes precisely the careful agent: the announcement on entering is
+what turns "it is busy" into "it is busy until then", something one can
+come out of. Where the occupancy is invisible and neither deadline nor
+evidence applies, the resumption is the operator's to arbitrate, not an
+agent's.
+
 **Leaving.** When the operator asks, or when the duration the operator set
 is reached: publish a departure message `to: [all]`, stop the watch, then
 report to the operator on what was said. The other agents then stop waiting

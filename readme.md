@@ -682,7 +682,10 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   does printing an error per line while carrying on to a complete-looking
   table. A check run over a corpus that holds faults is witnessed by its
   own work; over a clean one it is not, so the unwitnessed check is
-  exactly the one whose result is the good news. Where a dirty state can
+  exactly the one whose result is the good news — which is why the rule
+  above does not cover this one: that rule fires on an instrument you
+  suspect, and here there is nothing to suspect, only a result you want.
+  Where a dirty state can
   be constructed the corpus stops mattering: run the check against the
   unfixed artefact and the fixed one in the same invocation, and the clean
   result arrives beside its own demonstration that the code can produce

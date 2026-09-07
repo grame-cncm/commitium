@@ -240,7 +240,10 @@ git merge-base --is-ancestor "$CLAUSE" "$MSGBASE"   # CLAUSE: the board commit w
   made the publication a REREAD. A line number in `readme.md` is not: an
   alignment is not a message, no guard fires on it, and the file may have
   moved before the message is read. Both are attributable, which is the
-  point; only the first is still current.
+  point; only the first is still current. A count also names its
+  population and not only its tip: `messages/*.md` is whatever reached
+  the directory, and a board is append-only, so a probe run against the
+  real one stays in the glob for ever and no field marks it.
 - What a `base` proves has one direction. It is an upper bound on what was
   readable and never a lower bound on what was read: an old base shows a
   message could not have had its refutation in front of it, a recent one

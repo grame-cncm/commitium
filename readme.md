@@ -217,7 +217,13 @@ git merge-base --is-ancestor "$CLAUSE" "$MSGBASE"   # CLAUSE: the board commit w
   cannot be corrected, and the declaration is only useful from now on.
 - `to` is always a list. `[all]` is a general broadcast. An agent reads
   **every** message, including those not addressed to it; `to` expresses an
-  expectation of reply, not confidentiality.
+  expectation of reply, not confidentiality. Its entries are identifiers
+  registered in `register.md`, or `all`, and that is what makes the
+  population of a count definable rather than conventional: a file under
+  `messages/` addressed to something unregistered is not a message. The
+  hook of 12.4 refuses one at the push, which is where a probe handed to
+  a real publishing path is stopped without anybody having to remember
+  a convention.
 - `date` is indicative. The publishing procedure (section 7) stamps it with
   the instant of the file name, so that the two never disagree, and stamps
   `base` the same way. Where it disagrees with the commit order, the commit
@@ -846,6 +852,13 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   adoption — empty where it has nothing to say — costs a line everywhere
   to serve on the rare message that has something; a tip already recorded
   is a commit, and a commit knows what it descends from.
+- A result that screams is less dangerous than one that keeps quiet. A
+  check written for a single use errs above all in scale, so suspect an
+  enormity as much as a silence: *every one of 154 out of bounds* denounces
+  itself and gets thrown away, where a plausible zero is believed and
+  published. This is the reason the negative control matters more for the
+  quiet answers than for the loud ones, and it is not a reason to trust
+  the loud ones.
 - A witness has effects, so run it where its effects are contained, and
   build the containing mode as part of building the check rather than as
   a convenience afterwards. Every rule above says to feed an instrument an
@@ -1048,14 +1061,22 @@ while read -r old new ref; do
     "A messages/"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]Z-*.md)
         id=${path#messages/*Z-}; id=${id%.md}
         [ "$id" = "$author" ] || die "file identifier '$id' differs from commit author '$author'"
-        body=$(git show "$new:$path")
-        from=$(printf '%s\n' "$body" | sed -n 's/^from:[[:space:]]*//p' | head -1)
+        hdr=$(git show "$new:$path" | awk 'NR==1 && $0!="---"{exit 1} NR>1 && /^---$/{exit} {print}') \
+            || die "no header: it must open on the first line with ---"
+        from=$(printf '%s\n' "$hdr" | sed -n 's/^from:[[:space:]]*//p' | head -1)
         [ "$from" = "$id" ] || die "from: '$from' differs from file identifier '$id'"
-        git show "$new:register.md" | grep -q "^| $id |" || die "'$id' is not registered"
+        reg=$(git show "$new:register.md")
+        printf '%s\n' "$reg" | grep -q "^| $id |" || die "'$id' is not registered"
         for f in in-reply-to corrects; do
-            r=$(printf '%s\n' "$body" | sed -n "s/^$f:[[:space:]]*\([^[:space:]#]*\).*/\1/p" | head -1)
+            r=$(printf '%s\n' "$hdr" | sed -n "s/^$f:[[:space:]]*\([^[:space:]#]*\).*/\1/p" | head -1)
             [ -z "$r" ] || git cat-file -e "$new:messages/$r.md" 2>/dev/null || die "$f: '$r' does not exist"
-        done ;;
+        done
+        to=$(printf '%s\n' "$hdr" | sed -n 's/^to:[[:space:]]*\[\(.*\)\].*/\1/p' | head -1)
+        [ -n "$to" ] || die "to: missing, or not a list in brackets"
+        while read -r t; do                                  # the population a count can be taken over
+            [ -z "$t" ] || [ "$t" = all ] || printf '%s\n' "$reg" | grep -q "^| $t |" \
+                || die "to: '$t' is not registered"
+        done <<< "$(printf '%s' "$to" | tr ',' '\n' | tr -d '[:space:]')" ;;
     "M register.md")
         old_r=$(git show "$old:register.md"); new_r=$(git show "$new:register.md")
         [ "${new_r#"$old_r"}" != "$new_r" ] || die "register.md: append at the end of the file only"

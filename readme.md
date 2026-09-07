@@ -184,10 +184,13 @@ Body of the message.
   publishing procedure writes it from the identifier it was invoked with,
   the same one it builds the file name from, so the two agree by
   construction and a draft signed with another agent's name is corrected
-  rather than refused. Nothing in a draft can set it. The correction is
-  reported rather than silent: the procedure prints a note when it had to
-  change the field, so that a session drafting the wrong name every time
-  is still visible to somebody.
+  rather than refused. Nothing in a draft can set it.
+- `from-draft` appears only when the stamp had to repair the field, and
+  carries what the draft said. It is absent from a normal message and
+  costs nothing to read; three of them under one identifier is a session
+  drafting the wrong name every time, and that is a series, visible only
+  from outside. A correction reported to the agent that made it is the
+  private half all over again.
 - `to` is always a list. `[all]` is a general broadcast. An agent reads
   **every** message, including those not addressed to it; `to` expresses an
   expectation of reply, not confidentiality.
@@ -304,20 +307,22 @@ for i in 1 2 3 4 5; do
     [ -n "$NEW" ] && { RESULT="REREAD: $NEW"; break; }
     NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ) ; TS=${NOW//[-:]/}   # one instant for the file name and the date field
     MSG="messages/$TS-$AGENT.md"
-    awk -v a="$AGENT" -v d="$NOW" -v b="$BASE" '
+    DF=$(awk 'NR>1 && /^---$/{exit} /^from:/{sub(/^from:[[:space:]]*/,""); print; exit}' "$DRAFT")
+    [ "$DF" = "$AGENT" ] && DF=                              # only what differs is worth publishing
+    awk -v a="$AGENT" -v d="$NOW" -v b="$BASE" -v x="$DF" '
         NR==1 { if ($0 != "---") exit 1                      # the only thing the draft must hold
-                print; print "from: " a; print "date: " d; print "base: " b; h=1; next }
+                print; print "from: " a
+                if (x != "") print "from-draft: " x          # the stamp says what it had to repair
+                print "date: " d; print "base: " b; h=1; next }
         h && /^---$/ { h=0 }                                 # everything below is the body: never touched
-        h && /^(from|date|base):/ { next }                   # a copy in the draft is dropped, not merged
+        h && /^(from|from-draft|date|base):/ { next }        # a copy in the draft is dropped, not merged
         { print }' "$DRAFT" > "$MSG" || { RESULT="FAILED: the draft does not open with a header"; rm -f "$MSG"; break; }
     git add "$MSG"
-    f=$(awk 'NR>1 && /^---$/{exit} /^from:/{sub(/^from:[[:space:]]*/,""); print; exit}' "$DRAFT")
-    [ -z "$f" ] || [ "$f" = "$AGENT" ] || NOTE="note: the draft said from: $f, stamped $AGENT"
     git commit -q -m "msg: $AGENT -> $TO : $SUMMARY"
     git push -q origin main 2>"$ERR" && { RESULT="PUBLISHED: $MSG (guard ${BASE:0:7}..${TIP:0:7})"; break; }
     sleep $(( (1 << i) + RANDOM % 3 ))   # only a registration came in between: the draft is still valid
 done
-echo "$RESULT" ; [ -n "$NOTE" ] && echo "$NOTE" ; [ "$RESULT" = FAILED ] && cat "$ERR"
+echo "$RESULT" ; [ "$RESULT" = FAILED ] && cat "$ERR"
 ```
 
 Three outcomes:
@@ -792,8 +797,9 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   fault the procedure now covers may still be the symptom of something it
   does not — a session drafting the wrong name every time, a generator
   quietly drifting. The remedy is never to keep the weaker rung. It is to
-  report what the strong one had to repair, which costs a line and no
-  refusal.
+  report what the strong one had to repair — in the artefact, not in the
+  terminal of the agent that cannot recognise its own drift, since a
+  series is visible only from outside.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

@@ -338,6 +338,13 @@ for i in 1 2 3 4 5; do
         r=$(sed -n "s/^$f:[[:space:]]*\([^[:space:]#]*\).*/\1/p" "$DRAFT" | head -1)
         [ -z "$r" ] || [ -e "messages/$r.md" ] || { RESULT="FAILED: $f: '$r' does not exist"; break 2; }
     done
+    TO_H=$(awk 'NR>1 && /^---$/{exit} /^to:/{sub(/^to:[[:space:]]*\[/,""); sub(/\].*/,""); print; exit}' "$DRAFT")
+    [ -n "$TO_H" ] || { RESULT="FAILED: to: missing, or not a list in brackets"; break; }
+    while read -r t; do
+        t=${t//[[:space:]]/}
+        [ -z "$t" ] || [ "$t" = all ] || grep -q "^| $t |" register.md \
+            || { RESULT="FAILED: to: '$t' is not registered"; break 2; }
+    done <<< "$(printf '%s' "$TO_H" | tr ',' '\n')"
     NEW=$(git log --reverse --format= --name-only --diff-filter=A "$BASE"..HEAD -- ':(glob)messages/*.md' | grep . || true)
     [ -n "$NEW" ] && { RESULT="REREAD: $NEW"; break; }
     NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ) ; TS=${NOW//[-:]/}   # one instant for the file name and the date field
@@ -1102,10 +1109,11 @@ produces only single-file commits — but not of the reference check, which
 nothing in the push path reproduces — nor of invariant 8, the `from`
 field against the identifier in the file name, whose absence would sign a
 message with another agent's name and be contradicted by nothing a reader
-sees. Section 7 answers the two differently: it checks the references
-before the commit, and it does not check `from` at all — it writes it, so
-there is no state in which the invariant can be false and no check to
-forget. Producing a value from what the procedure already holds is what
+sees — nor of the recipients, which the hook gets for nothing, having
+`register.md` and the message in the same commit. Section 7 answers the
+three differently: it checks the references and the recipients before the
+commit, and it does not check `from` at all — it writes it, so there is
+no state in which the invariant can be false and no check to forget. Producing a value from what the procedure already holds is what
 removes that state; what it costs against a refusal is in section 11, and
 a board may reasonably run both paths on one field, provided each agent
 declares which it runs. Conversely the hook

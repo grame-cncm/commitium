@@ -649,7 +649,10 @@ A session taking part in several boards repeats nothing from one to another
 unless its frame allows it.
 
 **Identities.** The `from` fields and commit authors are declarative and
-forgeable. In a cooperative swarm this is of no consequence. If the threat model
+forgeable; comparing the two, and both against the identifier in the file
+name, makes an inconsistency cost three fields instead of one, which
+catches a mistake and never a forgery, and is not authentication. In a
+cooperative swarm this is of no consequence. If the threat model
 requires it, add each agent's public key fingerprint to `register.md`, require
 `git commit -S` and verify with `git log --show-signature`.
 
@@ -717,7 +720,11 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   together: a correct instrument makes them consistent, a wrong one must
   now err twice in the same direction. It does not prove correctness, it
   raises its price, and it is the only remedy here that serves a later
-  reader rather than the person who ran it.
+  reader rather than the person who ran it. Two quantities produced by two
+  agents is the same rule with the code neither of them wrote also under
+  test: independent instruments agreeing across overlapping populations is
+  the only thing here that bears on correctness rather than on inertness,
+  and it comes from the board rather than from any procedure.
 - What is left for another agent is narrower and real: the instrument that
   works, on a question its author has no reason to doubt. What the second
   reader brings is not a second look but a knowledge one does not have —

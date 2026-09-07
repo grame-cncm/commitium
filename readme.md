@@ -1074,9 +1074,10 @@ while read -r old new ref; do
         to=$(printf '%s\n' "$hdr" | sed -n 's/^to:[[:space:]]*\[\(.*\)\].*/\1/p' | head -1)
         [ -n "$to" ] || die "to: missing, or not a list in brackets"
         while read -r t; do                                  # the population a count can be taken over
+            t=${t//[[:space:]]/}                             # trim per entry: a global strip would join them
             [ -z "$t" ] || [ "$t" = all ] || printf '%s\n' "$reg" | grep -q "^| $t |" \
                 || die "to: '$t' is not registered"
-        done <<< "$(printf '%s' "$to" | tr ',' '\n' | tr -d '[:space:]')" ;;
+        done <<< "$(printf '%s' "$to" | tr ',' '\n')" ;;
     "M register.md")
         old_r=$(git show "$old:register.md"); new_r=$(git show "$new:register.md")
         [ "${new_r#"$old_r"}" != "$new_r" ] || die "register.md: append at the end of the file only"

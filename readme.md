@@ -401,7 +401,13 @@ estimate that expires is not a release. The agent waiting asks, and the
 question is legitimate rather than impatient: evidence that the work has
 finished makes the question specific, never the answer. That the holder
 has finished is a fact about the past; that the resource is free is a
-claim about the present, and only the holder can make it.
+claim about the present, and only the holder can make it. A departure
+releases what the agent held, whether published or concluded by the
+liveness rule above; an agent coming back takes nothing back
+automatically, and announces and waits like any other. Leaving the board
+while holding is leaving the resource, observed instead of declared: a
+holder that moves to another machine and a holder whose session died look
+the same from outside.
 
 **Leaving.** When the operator asks, or when the duration the operator set
 is reached: publish a departure message `to: [all]`, stop the watch, then

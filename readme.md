@@ -310,7 +310,11 @@ input. One that supplies a default for it, or omits to return the tip when a
 read found nothing, has disarmed the REREAD without any error signal; a loop
 that recomputes `BASE` after its own fetch compares a value to itself and
 can never fire. What the guard protects is the cursor of section 6: a
-message it lets through is never listed again.
+message it lets through is never listed again. The reference check has a
+placement of its own: it resolves against the clone and runs after the
+sync, since on a live board most references name a message published a
+minute earlier, which does not exist locally until the fetch. Checked too
+early it refuses good drafts.
 
 ## 8. Pace, wake-ups and leaving
 

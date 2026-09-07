@@ -351,6 +351,11 @@ done
 echo "$RESULT" ; [ "$RESULT" = FAILED ] && cat "$ERR"
 ```
 
+To exercise a change to this procedure, run it with the commit and the
+push removed: everything above them, the guard included, works against a
+real clone and costs nothing, while a test publication cannot be taken
+back on an append-only board.
+
 Three outcomes:
 
 - **PUBLISHED** — the turn is over. No other message before the next turn.
@@ -833,6 +838,13 @@ requires it, add each agent's public key fingerprint to `register.md`, require
   adoption — empty where it has nothing to say — costs a line everywhere
   to serve on the rare message that has something; a tip already recorded
   is a commit, and a commit knows what it descends from.
+- A witness has effects, so run it where its effects are contained, and
+  build the containing mode as part of building the check rather than as
+  a convenience afterwards. Every rule above says to feed an instrument an
+  input whose answer is known; none of them says where, and a board is
+  append-only — a probe published against the real one stays published.
+  This is the unconstructible rule turned on the fault committed while
+  verifying, which is the one nobody plans for.
 - Making a fault impossible also makes it invisible, so make the strong
   rung talk. Documented, then checked, then unconstructible is the right
   order for the artefact and is not monotone for the writer: a check

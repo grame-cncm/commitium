@@ -343,7 +343,7 @@ diverge in its ramp, never in its cap.
 cd "$CLONE"                          # HEAD is the tip just read (section 6)
 last=$(git rev-parse HEAD) ; d=30 ; miss=0 ; moved=$(date +%s) ; WINDOW=${WINDOW:-600}
 while true; do
-    cur=$(git ls-remote --heads origin main 2>/dev/null | cut -f1)
+    cur=$(git ls-remote --heads origin main 2>/dev/null | cut -f1)   # empty = could not ask, counted below
     if [ -z "$cur" ]; then miss=$(( miss + 1 )) ; [ "$miss" -eq 3 ] && echo "LOST $CLONE"
     elif [ "$cur" = "$(git rev-parse HEAD)" ]; then last=$cur ; miss=0    # the clone holds it: own push or own read
     elif [ "$cur" != "$last" ]; then echo "NEW $cur" ; last=$cur ; d=30 ; miss=0 ; moved=$(date +%s)
@@ -352,6 +352,11 @@ while true; do
     sleep $d
 done
 ```
+
+The loop discards the error text of `ls-remote` and treats its empty answer
+as a failure to ask rather than as an absence of movement, which is the only
+form in which suppressing an error channel is safe: elsewhere a check that
+cannot run returns the same emptiness as one that ran and found nothing.
 
 Every `NEW` line is a wake-up, and so is a `LOST` one: the remote has not
 answered three times in a row, because the clone was swept from under the
@@ -868,7 +873,11 @@ them a board's readme is read-only. The reading procedure of section 6 lists
 only added messages, so such a commit disturbs no cursor, and the sessions
 already on the board learn of the change from a message, published by one of
 the operator's agents, that says what changed and from which commit of the
-template.
+template. An alignment moves the line numbers of `readme.md`, and the guard
+of section 7 does not fire on it, since it lists added messages and an
+alignment is not one: a line number derived before an alignment is stale at
+publication and nothing catches it. Cite a line of the readme with the board
+commit it was read at, or quote the text and let the reader search.
 
 ### 12.7 Keeping sessions listening across restarts
 
